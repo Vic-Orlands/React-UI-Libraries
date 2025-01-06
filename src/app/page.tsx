@@ -21,11 +21,12 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import LibraryDetails from "./LibraryDetails";
-import { libraries, LibraryProps } from "@/data";
+import { libraries, LibraryProps } from "@/(data)/libraries";
+import Image from "next/image";
 
 const Home = () => {
-  const [copied, setCopied] = useState(false);
-  const [viewMode, setViewMode] = useState<string>("grid");
+  const [isCopied, setIsCopied] = useState(false);
+  const [layout, setLayout] = useState<string>("grid");
   const [category, setCategory] = useState<string | null>(null);
   const [selectedLibrary, setSelectedLibrary] = useState<LibraryProps | null>(
     null
@@ -36,20 +37,20 @@ const Home = () => {
     : libraries;
 
   const copyToClipboard = (text: string) => {
-    setCopied(true);
+    setIsCopied(true);
     navigator.clipboard.writeText(text);
 
     setTimeout(() => {
-      setCopied(false);
+      setIsCopied(false);
     }, 1200);
   };
 
-  function scrollIntoView({ behavior }: { behavior: ScrollBehavior }) {
+  const scrollIntoView = ({ behavior }: { behavior: ScrollBehavior }) => {
     const element = document.getElementById("library-details");
     if (element) {
       element.scrollIntoView({ behavior });
     }
-  }
+  };
 
   return (
     <div className="min-h-screen">
@@ -86,7 +87,7 @@ const Home = () => {
                     className="text-gray-400 hover:text-white transition-colors"
                     onClick={() => copyToClipboard("npx shadcn@latest init")}
                   >
-                    {!copied ? (
+                    {!isCopied ? (
                       <Copy size={18} />
                     ) : (
                       <CircleCheckBig size={18} />
@@ -123,9 +124,9 @@ const Home = () => {
                 <Button
                   variant="outline"
                   size="icon"
-                  onClick={() => setViewMode("grid")}
+                  onClick={() => setLayout("grid")}
                   className={
-                    viewMode === "grid"
+                    layout === "grid"
                       ? "bg-primary dark:bg-gray-800 dark:border-gray-800 text-white"
                       : "bg-inherit"
                   }
@@ -135,9 +136,9 @@ const Home = () => {
                 <Button
                   variant="outline"
                   size="icon"
-                  onClick={() => setViewMode("list")}
+                  onClick={() => setLayout("list")}
                   className={
-                    viewMode === "list"
+                    layout === "list"
                       ? "bg-primary dark:bg-gray-800 dark:border-gray-800 text-white"
                       : "bg-inherit"
                   }
@@ -149,14 +150,23 @@ const Home = () => {
 
             <section
               className={`grid ${
-                viewMode === "grid"
+                layout === "grid"
                   ? "grid-cols-1 lg:grid-cols-2 xl:grid-cols-3"
                   : "grid-cols-2"
               } gap-6 pb-5 xl:px-16`}
             >
               {libraryCart.map((lib) => (
                 <div key={lib.name}>
-                  <Card className="hover:shadow-lg transition-shadow dark:bg-gray-800">
+                  <Card className="hover:shadow-lg transition-shadow dark:bg-gray-800 dark:border-0">
+                    <div className="w-full h-58">
+                      <Image
+                        src={lib.img || "/placeholder.png"}
+                        alt={`${lib.name} preview`}
+                        width={300}
+                        height={100}
+                        className="w-full h-full object-cover rounded-t-lg"
+                      />
+                    </div>
                     <CardHeader>
                       <CardTitle className="flex justify-between items-center">
                         {lib.name}

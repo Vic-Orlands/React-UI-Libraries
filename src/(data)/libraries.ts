@@ -1,4 +1,8 @@
+import { StaticImageData } from "next/image";
+import Mui from "@/assets/mui.png";
+
 export interface LibraryProps {
+  img?: StaticImageData | string;
   name: string;
   category: string;
   description: string;
@@ -9,6 +13,7 @@ export interface LibraryProps {
 
 export const libraries = [
   {
+    img: Mui,
     name: "Material UI",
     category: "Component Libraries",
     description: "Google's Material Design implemented for React",

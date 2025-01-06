@@ -11,26 +11,25 @@ import {
 } from "@/components/ui/navigation-menu";
 import {
   DropdownMenu,
-  DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { Sun, Moon, Github } from "lucide-react";
+import clsx from "clsx";
 
 function Header() {
   const { setTheme } = useTheme();
 
   return (
-    <header className="sticky container top-0 z-40 w-full border-b flex h-16 items-center justify-between px-5 sm:px-20 bg-white dark:bg-gray-900">
+    <header className="sticky container top-0 z-40 w-full border-b dark:border-b-0 flex h-16 items-center justify-between px-5 sm:px-20 bg-white dark:bg-gray-900">
       <NavigationMenu>
         <NavigationMenuList>
           <NavigationMenuItem>
-            <Link href="/" legacyBehavior passHref>
-              <NavigationMenuLink className="text-sm font-medium transition-colors hover:text-gray-700 dark:hover:text-gray-300">
-                React UI Libraries
-              </NavigationMenuLink>
-            </Link>
+            <NavigationMenuLink className="text-sm font-medium transition-colors hover:text-gray-700 dark:hover:text-gray-300">
+              React UI Libraries
+            </NavigationMenuLink>
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>
@@ -88,9 +87,17 @@ function Header() {
           </DropdownMenu>
 
           <NavigationMenuItem>
-            <Link href="/advanced" legacyBehavior passHref>
-              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                <Github className="h-[1.2rem] w-[1.2rem] scale-100 transition-all" />
+            <Link
+              target="_blank"
+              href="https://github.com/Vic-Orlands/React-UI-Libraries"
+              passHref
+            >
+              <NavigationMenuLink
+                className={clsx(navigationMenuTriggerStyle(), "px-0")}
+              >
+                <Button variant="custom" size="icon">
+                  <Github className="h-[1.2rem] w-[1.2rem] scale-105 transition-all" />
+                </Button>
               </NavigationMenuLink>
             </Link>
           </NavigationMenuItem>

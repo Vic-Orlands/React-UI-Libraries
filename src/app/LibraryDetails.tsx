@@ -1,59 +1,23 @@
-import React, { useState } from 'react';
-import { ArrowLeft, ExternalLink, Github, Star, Download, Check, X } from 'lucide-react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
+import React, { useState } from "react";
+import { X, Star, Check, ArrowLeft } from "lucide-react";
+import {
+  Card,
+  CardTitle,
+  CardHeader,
+  CardContent,
+  CardDescription,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
 
 const LibraryDetails = ({ library, onBack }) => {
   const [previewMode, setPreviewMode] = useState(null);
 
-  const features = {
-    "Material UI": {
-      components: 95,
-      customization: 90,
-      documentation: 95,
-      ecosystem: 90,
-      features: [
-        { name: "Theme Customization", available: true },
-        { name: "Server Components", available: true },
-        { name: "TypeScript Support", available: true },
-        { name: "SSR Support", available: true },
-        { name: "RTL Support", available: true }
-      ],
-      installation: 'npm install @mui/material @emotion/react @emotion/styled',
-      examples: [
-        {
-          name: "Default",
-          component: (
-            <div className="space-y-4 p-4">
-              <h1 className="text-2xl font-normal">Material Design</h1>
-              <button className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-                Primary Button
-              </button>
-            </div>
-          )
-        },
-        {
-          name: "Custom Theme",
-          component: (
-            <div className="space-y-4 p-4 bg-purple-50">
-              <h1 className="text-2xl font-normal text-purple-900">Custom Theme</h1>
-              <button className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700">
-                Themed Button
-              </button>
-            </div>
-          )
-        }
-      ]
-    }
-    // Add other libraries here
-  };
-
   const currentLibrary = features[library.name];
 
   const PreviewComponent = ({ mode }) => {
-    const example = currentLibrary.examples.find(ex => ex.name === mode);
+    const example = currentLibrary.examples.find((ex) => ex.name === mode);
     return (
       <div className="w-full min-h-screen transition-all duration-300">
         {example?.component}
@@ -62,7 +26,7 @@ const LibraryDetails = ({ library, onBack }) => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8" id='library-details'>
+    <div className="container mx-auto pb-5 xl:pb-16 py-8" id="library-details">
       <Button variant="ghost" onClick={onBack} className="mb-6">
         <ArrowLeft className="mr-2 h-4 w-4" />
         Back to Libraries
@@ -75,7 +39,9 @@ const LibraryDetails = ({ library, onBack }) => {
               <div className="flex justify-between items-start">
                 <div>
                   <CardTitle className="text-3xl">{library.name}</CardTitle>
-                  <CardDescription className="mt-2">{library.description}</CardDescription>
+                  <CardDescription className="mt-2">
+                    {library.description}
+                  </CardDescription>
                 </div>
                 <Badge variant="secondary" className="text-lg">
                   <Star className="h-4 w-4 mr-1" />
@@ -150,10 +116,12 @@ const LibraryDetails = ({ library, onBack }) => {
                 {currentLibrary.examples.map((example) => (
                   <Button
                     key={example.name}
-                    variant={previewMode === example.name ? "default" : "outline"}
+                    variant={
+                      previewMode === example.name ? "default" : "outline"
+                    }
                     className="w-full"
-                    onClick={() => {setPreviewMode(example.name) 
-                        
+                    onClick={() => {
+                      setPreviewMode(example.name);
                     }}
                   >
                     {example.name}
