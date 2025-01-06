@@ -21,7 +21,7 @@ import ReactVirtualizedImage from "@/assets/ReactVirtualized.png";
 import ReactDNDImage from "@/assets/reactdnd.png";
 import ReactSpringImage from "@/assets/reactsprings.png";
 import ReacttoolboxImage from "@/assets/reacttoolbox.png";
-import ReactBeautifulDNDImage from "@/assets/ReactDnD.png";
+import ReactBeautifulDNDImage from "@/assets/ReactBeautifulDnD.png";
 import ReactMotionImage from "@/assets/reactmotion.png";
 import ReactUseImage from "@/assets/reactuse.png";
 import ReactHookFormImage from "@/assets/reacthookform.png";
