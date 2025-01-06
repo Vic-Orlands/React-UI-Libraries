@@ -23,7 +23,7 @@ function Header() {
   const { setTheme } = useTheme();
 
   return (
-    <header className="sticky container top-0 z-40 w-full border-b dark:border-b-0 flex h-16 items-center justify-between px-5 sm:px-20 bg-white dark:bg-gray-900">
+    <header className="sticky container top-0 z-40 w-full border-b flex h-16 items-center justify-between px-5 sm:px-20 bg-white dark:bg-gray-900">
       <NavigationMenu>
         <NavigationMenuList>
           <NavigationMenuItem>
@@ -36,6 +36,14 @@ function Header() {
 
       <NavigationMenu>
         <NavigationMenuList>
+          <NavigationMenuItem>
+            <Link href="/" legacyBehavior passHref>
+              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                Home
+              </NavigationMenuLink>
+            </Link>
+          </NavigationMenuItem>
+
           <NavigationMenuItem>
             <Link
               href="https://victorinnocent.netlify.app/blog"
@@ -92,13 +100,9 @@ function Header() {
               href="https://github.com/Vic-Orlands/React-UI-Libraries"
               passHref
             >
-              <NavigationMenuLink
-                className={clsx(navigationMenuTriggerStyle(), "px-0")}
-              >
-                <Button variant="custom" size="icon">
-                  <Github className="h-[1.2rem] w-[1.2rem] scale-105 transition-all" />
-                </Button>
-              </NavigationMenuLink>
+              <Button variant="custom" size="icon">
+                <Github className="h-[1.2rem] w-[1.2rem] scale-105 transition-all" />
+              </Button>
             </Link>
           </NavigationMenuItem>
         </NavigationMenuList>
