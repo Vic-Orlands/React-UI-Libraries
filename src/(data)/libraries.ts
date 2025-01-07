@@ -33,9 +33,14 @@ import ReactTableImage from "@/assets/tanstacktable.png";
 import Reacti8Image from "@/assets/reacti8.png";
 import ReactHelmetImage from "@/assets/reacthelmet.png";
 import ReactHotToastImage from "@/assets/reacthottoast.png";
+import MantineImage from "@/assets/mantine.png";
+import ShadcnImage from "@/assets/shadcn.png";
+import ParkUIImage from "@/assets/parkui.png";
+import NextUIImage from "@/assets/nextui.png";
+import CoreUIImage from "@/assets/core ui.png";
 
 export interface LibraryProps {
-  img?: StaticImageData | string;
+  img?: StaticImageData;
   name: string;
   category: string;
   description: string;
@@ -45,6 +50,15 @@ export interface LibraryProps {
 }
 
 export const libraries = [
+  {
+    img: ChakraImage,
+    name: "Chakra UI",
+    category: "Component Libraries",
+    description: "Simple, modular and accessible UI components",
+    stars: "38.3K",
+    license: "MIT",
+    url: "https://chakra-ui.com/",
+  },
   {
     img: MuiImage,
     name: "Material UI",
@@ -64,13 +78,53 @@ export const libraries = [
     license: "MIT",
   },
   {
-    img: ChakraImage,
-    name: "Chakra UI",
+    img: MantineImage,
+    name: "Mantine",
     category: "Component Libraries",
-    description: "Simple, modular and accessible UI components",
-    stars: "38.3K",
+    description:
+      "Fully functional React UI library with over 100 customizable components and 50 hooks",
+    stars: "25k",
     license: "MIT",
-    url: "https://chakra-ui.com/",
+    url: "https://mantine.dev/",
+  },
+  {
+    img: ShadcnImage,
+    name: "Shadcn UI",
+    category: "Component Libraries",
+    description:
+      "Component library leveraging Tailwind CSS and Radix UI for styling",
+    stars: "66k",
+    license: "MIT",
+    url: "https://ui.shadcn.com/",
+  },
+  {
+    img: ParkUIImage,
+    name: "Park UI",
+    category: "Component Libraries",
+    description: "React component library built on Ark UI and Panda CSS",
+    stars: "1.8k",
+    license: "MIT",
+    url: "https://park-ui.com/",
+  },
+  {
+    img: NextUIImage,
+    name: "Next UI",
+    category: "Component Libraries",
+    description:
+      "A React UI library with a well-scaled default dark theme and support for component lazy loading",
+    stars: "21k",
+    license: "MIT",
+    url: "https://nextui.org/",
+  },
+  {
+    img: CoreUIImage,
+    name: "Core UI",
+    category: "Component Libraries",
+    description:
+      "A React UI library built using SASS with support for charts and data visualization",
+    stars: "600",
+    license: "MIT",
+    url: "https://coreui.io/react/",
   },
   {
     img: TailwindImage,
@@ -104,7 +158,8 @@ export const libraries = [
     name: "Headless UI",
     category: "Headless UI",
     url: "https://headlessui.dev/",
-    description: "Completely unstyled, accessible UI components",
+    description:
+      "Collection of unstyled, accessible UI components built on top of Tailwind CSS",
     stars: "20.8k",
     license: "MIT",
   },
@@ -360,4 +415,6 @@ export const libraries = [
     license: "MIT",
     url: "https://react-hot-toast.com/",
   },
+
+  // start here
 ];

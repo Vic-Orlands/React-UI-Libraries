@@ -25,12 +25,14 @@ import { Badge } from "@/components/ui/badge";
 import LibraryDetails from "./LibraryDetails";
 import Image from "next/image";
 import clsx from "clsx";
+import { Input } from "@/components/ui/input";
 
 const Home = () => {
   const itemsPerPage: number = 9;
 
   const [isCopied, setIsCopied] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [searchText, setSearchText] = useState<string>("");
   const [layout, setLayout] = useState<string>("grid");
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [category, setCategory] = useState<string | null>(null);
@@ -38,7 +40,13 @@ const Home = () => {
     null
   );
 
-  const libraryCart = category
+  let libraryCart = searchText
+    ? libraries.filter(
+        (lib) =>
+          lib.name.toLowerCase().includes(searchText) ||
+          lib.stars.toString().includes(searchText)
+      )
+    : category
     ? libraries.filter((lib) => lib.category === category)
     : libraries;
 
@@ -49,6 +57,15 @@ const Home = () => {
     setTimeout(() => {
       setIsCopied(false);
     }, 1200);
+  };
+
+  const searchLibrary = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const searchText = e.target.value.toLowerCase();
+
+    setCategory(null);
+    setCurrentPage(1);
+    setSelectedLibrary(null);
+    setSearchText(searchText);
   };
 
   const scrollIntoView = ({ behavior }: { behavior: ScrollBehavior }) => {
@@ -64,12 +81,8 @@ const Home = () => {
         setIsLoading(false);
       }, 400);
     }
+    return;
   }, []);
-
-  // useEffect(() => {
-  //   const isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-  //   document.documentElement.classList.toggle("dark", isDark);
-  // }, []);
 
   return (
     <div className="min-h-screen">
@@ -133,7 +146,10 @@ const Home = () => {
                       ? "bg-primary dark:bg-gray-800 dark:border-gray-800 text-white"
                       : "bg-inherit"
                   )}
-                  onClick={() => setCategory(null)}
+                  onClick={() => {
+                    setCategory(null);
+                    setSearchText("");
+                  }}
                 >
                   All
                 </Badge>
@@ -142,7 +158,10 @@ const Home = () => {
                     <Badge
                       key={uniqueCategory}
                       variant="outline"
-                      onClick={() => setCategory(uniqueCategory)}
+                      onClick={() => {
+                        setCategory(uniqueCategory);
+                        setSearchText("");
+                      }}
                       className={clsx(
                         "mr-2 text-sm cursor-pointer",
                         category === uniqueCategory
@@ -156,31 +175,39 @@ const Home = () => {
                 )}
               </div>
 
-              <div className="flex gap-4">
-                <Button
-                  variant="outline"
-                  size="icon"
-                  onClick={() => setLayout("grid")}
-                  className={
-                    layout === "grid"
-                      ? "bg-primary dark:bg-gray-800 dark:border-gray-800 text-white"
-                      : "bg-inherit"
-                  }
-                >
-                  <Grid className="h-4 w-4" />
-                </Button>
-                <Button
-                  variant="outline"
-                  size="icon"
-                  onClick={() => setLayout("list")}
-                  className={
-                    layout === "list"
-                      ? "bg-primary dark:bg-gray-800 dark:border-gray-800 text-white"
-                      : "bg-inherit"
-                  }
-                >
-                  <List className="h-4 w-4" />
-                </Button>
+              <div className="flex gap-4 w-1/4">
+                <Input
+                  type="text"
+                  value={searchText}
+                  onChange={(e) => searchLibrary(e)}
+                  placeholder="Search by name or stars"
+                />
+                <div className="flex gap-4">
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={() => setLayout("grid")}
+                    className={
+                      layout === "grid"
+                        ? "bg-primary dark:bg-gray-800 dark:border-gray-800 text-white"
+                        : "bg-inherit"
+                    }
+                  >
+                    <Grid className="h-4 w-4" />
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={() => setLayout("list")}
+                    className={
+                      layout === "list"
+                        ? "bg-primary dark:bg-gray-800 dark:border-gray-800 text-white"
+                        : "bg-inherit"
+                    }
+                  >
+                    <List className="h-4 w-4" />
+                  </Button>
+                </div>
               </div>
             </section>
 
@@ -200,73 +227,101 @@ const Home = () => {
               </div>
             ) : (
               <>
-                <section
-                  className={`grid ${
-                    layout === "grid"
-                      ? "grid-cols-1 lg:grid-cols-2 xl:grid-cols-3"
-                      : "grid-cols-2"
-                  } gap-6 pb-5 xl:px-16`}
-                >
-                  {libraryCart
-                    .slice(
-                      (currentPage - 1) * itemsPerPage,
-                      currentPage * itemsPerPage
-                    )
-                    .map((lib) => (
-                      <div key={lib.name}>
-                        <Card className="hover:shadow-lg transition-shadow dark:bg-gray-800 dark:border-0">
-                          <div className="w-full h-58">
-                            <Image
-                              src={lib.img || "/placeholder.png"}
-                              alt={`${lib.name} preview`}
-                              width={300}
-                              height={100}
-                              className="w-full h-full object-cover rounded-t-lg"
-                            />
-                          </div>
-                          <CardHeader>
-                            <CardTitle className="flex justify-between items-center">
-                              {lib.name}
-                              <Badge variant="secondary">{lib.category}</Badge>
-                            </CardTitle>
-                            <CardDescription>{lib.description}</CardDescription>
-                          </CardHeader>
-                          <CardContent>
-                            <div className="flex gap-4">
-                              <Badge variant="outline">⭐ {lib.stars}</Badge>
-                              <Badge variant="outline">{lib.license}</Badge>
+                {libraryCart.length > 0 ? (
+                  <section
+                    className={`grid ${
+                      layout === "grid"
+                        ? "grid-cols-1 lg:grid-cols-2 xl:grid-cols-3"
+                        : "grid-cols-2"
+                    } gap-6 pb-5 xl:px-16`}
+                  >
+                    {libraryCart
+                      .slice(
+                        (currentPage - 1) * itemsPerPage,
+                        currentPage * itemsPerPage
+                      )
+                      .map((lib) => (
+                        <div key={lib.name}>
+                          <Card className="hover:shadow-lg transition-shadow dark:bg-gray-800 dark:border-0">
+                            <div className="w-full h-58">
+                              <Image
+                                src={lib.img || "/placeholder.png"}
+                                alt={`${lib.name} preview`}
+                                width={300}
+                                height={100}
+                                className="w-full h-full object-cover rounded-t-lg"
+                              />
                             </div>
-                          </CardContent>
-                          <CardFooter className="flex justify-between">
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              onClick={() => {
-                                setSelectedLibrary(lib);
-                                scrollIntoView({ behavior: "smooth" });
-                              }}
-                            >
-                              Learn More
-                              <ChevronRight className="ml-2 h-4 w-4" />
-                            </Button>
+                            <CardHeader>
+                              <CardTitle className="flex justify-between items-center">
+                                {lib.name}
+                                <Badge variant="secondary">
+                                  {lib.category}
+                                </Badge>
+                              </CardTitle>
+                              <CardDescription>
+                                {lib.description}
+                              </CardDescription>
+                            </CardHeader>
+                            <CardContent>
+                              <div className="flex gap-4">
+                                <Badge variant="outline">⭐ {lib.stars}</Badge>
+                                <Badge variant="outline">{lib.license}</Badge>
+                              </div>
+                            </CardContent>
+                            <CardFooter className="flex justify-between">
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                onClick={() => {
+                                  setSelectedLibrary(lib);
+                                  scrollIntoView({ behavior: "smooth" });
+                                }}
+                              >
+                                Learn More
+                                <ChevronRight className="ml-2 h-4 w-4" />
+                              </Button>
 
-                            <Button variant="default" size="sm" asChild>
-                              <Link href={lib.url} target="_blank" passHref>
-                                See in Action
-                                <ExternalLink className="ml-2 h-4 w-4" />
-                              </Link>
-                            </Button>
-                          </CardFooter>
-                        </Card>
-                      </div>
-                    ))}
-                </section>
+                              <Button variant="default" size="sm" asChild>
+                                <Link href={lib.url} target="_blank" passHref>
+                                  See in Action
+                                  <ExternalLink className="ml-2 h-4 w-4" />
+                                </Link>
+                              </Button>
+                            </CardFooter>
+                          </Card>
+                        </div>
+                      ))}
+                  </section>
+                ) : (
+                  <section className="flex flex-col items-center justify-center py-10">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="w-12 h-12 mb-4 text-gray-500"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M12 9v3.75m0 3.75h.007M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z"
+                      />
+                    </svg>
+                    <p className="text-center text-gray-500">
+                      No UI Library in our db has this name or star
+                    </p>
+                  </section>
+                )}
 
-                <PaginationComponent
-                  currentPage={currentPage}
-                  totalPages={Math.ceil(libraryCart.length / itemsPerPage)}
-                  onPageChange={(page) => setCurrentPage(page)}
-                />
+                {libraryCart.length > 0 && (
+                  <PaginationComponent
+                    currentPage={currentPage}
+                    totalPages={Math.ceil(libraryCart.length / itemsPerPage)}
+                    onPageChange={(page) => setCurrentPage(page)}
+                  />
+                )}
               </>
             )}
           </div>

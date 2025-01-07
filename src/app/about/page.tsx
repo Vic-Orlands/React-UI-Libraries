@@ -25,7 +25,18 @@ const AboutPage = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-8">
             <div className="order-2 md:order-1 space-y-4">
               <p className="text-md leading-relaxed text-muted-foreground">
-                React UI Libraries serves as a centralized resource for
+                <a
+                  target="_blank"
+                  className="text-blue-500 hover:underline"
+                  href="https://prismic.io/blog/react-component-libraries"
+                >
+                  React Component Libraries
+                </a>{" "}
+                inspired this project, because the article has over 300k views
+                and counting. I was getting series of messages to either include
+                new libraries or to show thoughtfulness for curating the
+                article. <br />
+                <br /> React UI Libraries serves as a centralized resource for
                 developers and organizations seeking to enhance their React
                 applications with high-quality UI components. We evaluate and
                 catalog React UI libraries based on crucial metrics including

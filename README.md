@@ -14,6 +14,8 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+You can also go through my [article](https://prismic.io/blog/react-component-libraries) for an elaborated and well-curated list.
+
 ## Contributing
 
 If you want your package to be featured on the website, you can open a PR or send me an email via [chimezieinnocent39@gmail.com](mailto:chimezieinnocent39@gmail.com). Additionally, you can create a PR to suggest a feature to be added.
